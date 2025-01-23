@@ -1,0 +1,1 @@
+{"root":["./src/index.ts","./src/s3/s3bucket.ts","./src/utils/handleerror.ts","./src/utils/input.ts"],"version":"5.7.3"}

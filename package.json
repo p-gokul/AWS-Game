@@ -1,0 +1,19 @@
+{
+  "name": "aws-game",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.7.3"
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "start": "bun dist/index.js"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.733.0",
+    "esbuild": "^0.24.2"
+  }
+}
