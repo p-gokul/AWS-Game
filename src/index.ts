@@ -8,6 +8,7 @@ import {
 import { input, closeInput } from "./utils/input";
 import { handleError } from "./utils/handleError";
 import chalk from "chalk";
+import { launchInstance } from "./EC2/EC2_Instance";
 
 const actions = [
   "Exit",
@@ -88,4 +89,5 @@ const main = async () => {
   }
 };
 
-main();
+// main();
+launchInstance();
