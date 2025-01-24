@@ -10,8 +10,16 @@ import {
   AssociateAddressCommand,
   waitUntilInstanceRunning,
 } from "@aws-sdk/client-ec2";
+import { Buffer } from "buffer";
 
 const ec2client = new EC2Client({});
+
+const nginxScript = `#!/bin/bash
+apt update -y
+apt install -y nginx
+systemctl enable nginx
+systemctl start nginx
+`;
 
 const createSecurityGroup = async () => {
   const input = {
@@ -93,6 +101,9 @@ const attachOutBoundRules = async (groupId: string) => {
 
 const createInstance = async (groupId: string) => {
   try {
+    // Encode the script in base64
+    const encodedScript = Buffer.from(nginxScript, "utf-8").toString("base64");
+
     const params = {
       ImageId: "ami-053e5b2b49d1b2a82",
       InstanceType: _InstanceType.t2_micro,
@@ -109,6 +120,7 @@ const createInstance = async (groupId: string) => {
           },
         },
       ],
+      UserData: encodedScript,
     };
 
     const command = new RunInstancesCommand(params);
