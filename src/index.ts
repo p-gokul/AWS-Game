@@ -9,6 +9,7 @@ import { input, closeInput } from "./utils/input";
 import { handleError } from "./utils/handleError";
 import chalk from "chalk";
 import { launchInstance } from "./EC2/EC2_Instance";
+import { createLambdaFunction } from "./Lambda/LambdaFunction";
 
 const actions = [
   "Exit",
@@ -90,4 +91,5 @@ const main = async () => {
 };
 
 // main();
-launchInstance();
+// launchInstance();
+createLambdaFunction();
