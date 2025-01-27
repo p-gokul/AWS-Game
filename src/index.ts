@@ -1,23 +1,17 @@
-import {
-  createS3Bucket,
-  listS3Buckets,
-  deleteS3Bucket,
-  listObjectsCommand,
-  deleteObjectCommand,
-} from "./S3/S3Bucket";
 import { input, closeInput } from "./utils/input";
 import { handleError } from "./utils/handleError";
 import chalk from "chalk";
 import { launchInstance } from "./EC2/EC2_Instance";
 import { createLambdaFunction } from "./Lambda/LambdaFunction";
+import { DynamoDBActions } from "./DynamoDB/DynamoDBActions";
+import { S3BucketActions } from "./S3/S3BucketActions";
 
 const actions = [
   "Exit",
-  "Create S3 Bucket",
-  "List S3 Bucket(s)",
-  "Delete S3 Bucket",
-  "List Bucket Objects",
-  "Delete Bucket Object",
+  "S3 Bucket Operations",
+  "DynamoDB Operations",
+  "EC2 Instance Creation",
+  "AWS Lambda Creation",
 ];
 
 const main = async () => {
@@ -33,45 +27,13 @@ const main = async () => {
       const action = await input(prefix.concat(prompt) + "\n");
 
       if (action === "1") {
-        const bucketName = await input(
-          chalk
-            .hex("#c7b198")
-            .underline.bold("\nEnter the name of the S3 Bucket:\n")
-        );
-        await createS3Bucket(bucketName);
+        S3BucketActions();
       } else if (action === "2") {
-        await listS3Buckets();
+        DynamoDBActions();
       } else if (action === "3") {
-        const BucketName = await input(
-          chalk.red.underline.bold("\nEnter the bucket name to delete::") +
-            chalk.hex("#41a7b3")(" Only empty buckets can be deleted)* \n")
-        );
-        await deleteS3Bucket({ BucketName });
+        launchInstance();
       } else if (action === "4") {
-        const BucketName = await input(
-          chalk.magenta.bold(
-            "\nPlease enter the bucket name to list out its objects. \n"
-          )
-        );
-        await listObjectsCommand({ BucketName });
-      } else if (action === "5") {
-        await listS3Buckets();
-        const BucketName = await input(
-          chalk
-            .hex("#bcfff2")
-            .underline.bold(
-              "\nPlease enter the bucket name from the above list to see it objects::\n"
-            )
-        );
-        await listObjectsCommand({ BucketName });
-        const ObjectName = await input(
-          chalk
-            .hex("#fffde8")
-            .underline.bold(
-              "\nPlease enter the name of the object from the above list to delete the object::\n"
-            )
-        );
-        await deleteObjectCommand({ BucketName, ObjectName });
+        createLambdaFunction();
       } else if (action === "0") {
         console.log(chalk.red.bold.italic("Exiting the program..."));
         break;
@@ -90,6 +52,4 @@ const main = async () => {
   }
 };
 
-// main();
-// launchInstance();
-createLambdaFunction();
+main();

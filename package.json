@@ -12,6 +12,7 @@
     "start": "bun dist/index.js"
   },
   "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.734.0",
     "@aws-sdk/client-ec2": "^3.731.1",
     "@aws-sdk/client-iam": "^3.734.0",
     "@aws-sdk/client-lambda": "^3.734.0",
